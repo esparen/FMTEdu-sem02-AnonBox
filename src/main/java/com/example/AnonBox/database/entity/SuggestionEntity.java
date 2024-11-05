@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,6 +20,9 @@ public class SuggestionEntity {
     private String description;
     private LocalDateTime submittedAt;
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "suggestion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentEntity> comments;
 }
 
 

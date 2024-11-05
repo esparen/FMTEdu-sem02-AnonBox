@@ -29,9 +29,9 @@ public class CommentController {
     }
 
     @PostMapping
-    public CommentEntity createComment(@PathVariable Long suggestionId, @RequestBody CommentEntity comment) {
+    public CommentEntity addComment(@PathVariable Long suggestionId, @RequestBody CommentEntity comment) {
         log.info("POST request received for creating a new comment on suggestion with id: {}", suggestionId);
-        return commentService.saveComment(suggestionId, comment);
+        return commentService.addComment(suggestionId, comment);
     }
 }
 
