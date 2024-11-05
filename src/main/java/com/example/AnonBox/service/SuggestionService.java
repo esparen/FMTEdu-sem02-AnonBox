@@ -9,6 +9,7 @@ import com.example.AnonBox.database.repository.SuggestionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -16,9 +17,9 @@ public class SuggestionService {
     @Autowired
     private SuggestionRepository suggestionRepository;
 
-    public List<SuggestionEntity> getAllSuggestions() {
+    public Optional<List<SuggestionEntity>> getAllSuggestions() {
         log.info("Fetching all suggestions");
-        return suggestionRepository.findAll();
+        return suggestionRepository.findAllByOrderBySubmittedAtDesc();
     }
 
     public SuggestionEntity getSuggestionById(Long id) {
