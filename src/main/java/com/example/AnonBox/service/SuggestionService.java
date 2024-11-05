@@ -23,7 +23,7 @@ public class SuggestionService {
 
     public SuggestionEntity getSuggestionById(Long id) {
       log.info("Fetching suggestion with id: {}", id);
-      return suggestionRepository.findById(id)
+      return suggestionRepository.findByIdWithOrderedComments(id)
         .orElseThrow(() -> new IllegalArgumentException("Suggestion not found"));
     }
 
