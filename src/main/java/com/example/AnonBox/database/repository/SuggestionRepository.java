@@ -12,7 +12,7 @@ import com.example.AnonBox.database.entity.SuggestionEntity;
 public interface SuggestionRepository extends JpaRepository<SuggestionEntity, Long> {
 
   @Query("SELECT s FROM Suggestion s LEFT JOIN FETCH s.comments c WHERE s.id = :id ORDER BY c.submittedAt ASC")
-  Optional<SuggestionEntity> findByIdWithOrderedComments(@Param("id") Long id);
+  Optional<SuggestionEntity> findByIdOrderByCommentsSubmittedAt(@Param("id") Long id);
 
   Optional<List<SuggestionEntity>> findAllByOrderBySubmittedAtDesc();
 
