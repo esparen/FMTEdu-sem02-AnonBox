@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.AnonBox.database.entity.CommentEntity;
+import com.example.AnonBox.database.entity.SuggestionEntity;
 import com.example.AnonBox.database.repository.CommentRepository;
+import com.example.AnonBox.database.repository.SuggestionRepository;
+
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +19,7 @@ import java.util.List;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
+    private SuggestionRepository suggestionRepository;
 
     public List<CommentEntity> getAllCommentsBySuggestion(Long suggestionId) {
         log.info("Fetching all comments for suggestion with id: {}", suggestionId);
@@ -26,9 +31,17 @@ public class CommentService {
       return commentRepository.findById(commentId).orElse(null);
     }
 
-    public CommentEntity saveComment(Long suggestionId, CommentEntity comment) {
-        comment.setSubmittedAt(LocalDateTime.now());
+    @Transactional
+    public CommentEntity addComment(Long suggestionId, CommentEntity comment) {
         log.info("Saving new comment for suggestion with id: {}", suggestionId);
+        SuggestionEntity suggestion = suggestionRepository.findById(suggestionId)
+                .orElseThrow(() -> new IllegalArgumentException("Suggestion not found"));
+
+        suggestion.setSubmittedAt(LocalDateTime.now());
+        suggestionRepository.save(suggestion);
+
+        comment.setSuggestion(suggestion);
+        comment.setSubmittedAt(LocalDateTime.now());
         return commentRepository.save(comment);
     }
 }
