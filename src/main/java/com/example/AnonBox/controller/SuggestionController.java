@@ -8,6 +8,7 @@ import com.example.AnonBox.database.entity.SuggestionEntity;
 import com.example.AnonBox.service.SuggestionService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -17,7 +18,7 @@ public class SuggestionController {
     private SuggestionService suggestionService;
 
     @GetMapping
-    public List<SuggestionEntity> getAllSuggestions() {
+    public Optional<List<SuggestionEntity>> getAllSuggestions() {
         log.info("GET request received for all suggestions");
         return suggestionService.getAllSuggestions();
     }
